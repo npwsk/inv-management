@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import config from './config';
 import boardsRouter from './routes/board';
 import locationsRouter from './routes/location';
+import staffRouter from './routes/staff';
 
 const PORT = config.port;
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/boards', boardsRouter);
 app.use('/api/locations', locationsRouter);
+app.use('/api/staff', staffRouter);
 
 app.listen(PORT, () => {
   console.log('Node server started running');
