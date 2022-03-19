@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 
 import config from './config';
 import boardsRouter from './routes/board';
+import locationsRouter from './routes/location';
 
 const PORT = config.port;
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/boards', boardsRouter);
+app.use('/api/locations', locationsRouter);
 
 app.listen(PORT, () => {
   console.log('Node server started running');
