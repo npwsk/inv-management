@@ -17,44 +17,25 @@ const Board = function (board) {
 };
 
 Board.create = (board, callback) => {
-  // const queryString =
-  // 'INSERT INTO InteractiveBoard VALUES (:locationId, :staffId, :manufacturer, :model, ' +
-  // ':diagSize, :inventoryNumber, :registrationDate, :usageStartDate, :deprecationPeriod, ' +
-  // ':repairStartDate, :failureReason, :state, :technology);';
-
-  // const {
-  //   manufacturer,
-  //   model,
-  //   diagSize,
-  //   inventoryNumber,
-  //   registrationDate,
-  //   usageStartDate,
-  //   deprecationPeriod,
-  //   repairStartDate,
-  //   failureReason,
-  //   state,
-  //   technology,
-  //   location: { id: locationId },
-  //   staffMember: { id: staffId },
-  // } = board;
-
   db.query(
     'INSERT INTO InteractiveBoard SET ?;',
-    {
-      location_id: board.locationId,
-      staff_id: board.staffId,
-      manufacturer: board.manufacturer,
-      model: board.model,
-      diag_size: board.diagSize,
-      inventory_number: board.inventoryNumber,
-      registration_date: board.registrationDate,
-      usage_start_date: board.usageStartDate,
-      deprecation_period: board.deprecationPeriod,
-      repair_start_date: board.repairStartDate,
-      failure_reason: board.failureReason,
-      state: board.state,
-      technology: board.technology,
-    },
+    [
+      {
+        location_id: board.locationId,
+        staff_id: board.staffId,
+        manufacturer: board.manufacturer,
+        model: board.model,
+        diag_size: board.diagSize,
+        inventory_number: board.inventoryNumber,
+        registration_date: board.registrationDate,
+        usage_start_date: board.usageStartDate,
+        deprecation_period: board.deprecationPeriod,
+        repair_start_date: board.repairStartDate,
+        failure_reason: board.failureReason,
+        state: board.state,
+        technology: board.technology,
+      },
+    ],
     (err, res) => {
       if (err) {
         console.log('Error:', err);
@@ -87,26 +68,18 @@ Board.findById = (id, callback) => {
   });
 };
 
-Board.getAll = (inventoryNumber, callback) => {
+Board.getAll = ({ inventoryNumber, state }, callback) => {
   let queryString = 'SELECT * FROM InteractiveBoard';
+
   if (inventoryNumber) {
-    queryString += ` WHERE inventory_number LIKE '%${inventoryNumber}%';`;
+    queryString += ' WHERE inventory_number=:inventoryNumber';
   }
 
-  db.query(queryString, (err, res) => {
-    if (err) {
-      console.log('Error:', err);
-      callback(null, err);
-      return;
-    }
+  if (state) {
+    queryString += ' WHERE state=:state';
+  }
 
-    console.log('Boards:', res);
-    callback(null, res);
-  });
-};
-
-Board.getAllByState = (state, callback) => {
-  db.query('SELECT * FROM InteractiveBoard WHERE state=:state;', { state }, (err, res) => {
+  db.query(queryString, { state, inventoryNumber }, (err, res) => {
     if (err) {
       console.log('Error:', err);
       callback(null, err);
@@ -122,7 +95,8 @@ Board.getAllDeprecatedIn = (months, callback) => {
   db.query(
     'SELECT * FROM InteractiveBoard WHERE ' +
       'DATE_ADD(usage_start_date, INTERVAL deprecation_period MONTH)' +
-      '<= DATE_ADD(CURDATE, INTERVAL :months MONTH);',
+      '<= DATE_ADD(CURDATE(), INTERVAL :months MONTH) ' +
+      'AND state <> "не исправно";',
     { months },
     (err, res) => {
       if (err) {
