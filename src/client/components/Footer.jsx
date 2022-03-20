@@ -10,7 +10,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Nika Perfilova
+          Ника Перфилова
         </a>
         © 2022
       </Container>
