@@ -14,7 +14,7 @@ import NotFound from './pages/NotFound';
 const App = () => {
   return (
     <BrowserRouter>
-      <>
+      <div className="d-flex flex-column min-vh-100">
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Boards />} />
@@ -29,7 +29,7 @@ const App = () => {
           </Route>
         </Routes>
         <Footer />
-      </>
+      </div>
     </BrowserRouter>
   );
 };
