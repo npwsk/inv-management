@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <div style={{ paddingTop: '56px' }}>
       <Header />
-      <Container>
+      <Container className="py-5">
         <Outlet />
       </Container>
     </div>
