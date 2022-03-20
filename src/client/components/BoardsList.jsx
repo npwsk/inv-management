@@ -1,5 +1,8 @@
 import { useSelector } from 'react-redux';
-import { Table } from 'react-bootstrap';
+
+import { Table, Button } from 'react-bootstrap';
+import { PencilSquare } from 'react-bootstrap-icons';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const tableHeadings = {
   board_id: '#',
@@ -56,6 +59,7 @@ const BoardsList = () => {
       <Table responsive bordered hover className="align-middle">
         <thead className="table-dark">
           <tr>
+            <th></th>
             {Object.entries(tableHeadings).map(([key, text]) => (
               <th key={key} className="align-middle text-center">
                 {text}
@@ -72,6 +76,17 @@ const BoardsList = () => {
             staffMembers.length &&
             boards.map((board) => (
               <tr key={`row-${board.board_id}`}>
+                <td>
+                  <LinkContainer to={`/boards/${board.board_id}`}>
+                    <Button
+                      variant="outline-secondary"
+                      size="sm"
+                      className="d-flex align-items-center px-1"
+                    >
+                      <PencilSquare />
+                    </Button>
+                  </LinkContainer>
+                </td>
                 {Object.keys(tableHeadings).map((prop) => (
                   <td key={`${board.id}-${prop}`}>{board[prop]}</td>
                 ))}
