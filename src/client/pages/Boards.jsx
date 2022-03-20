@@ -6,6 +6,7 @@ import { getLocations } from '../actions/location.js';
 import { getStaffMembers } from '../actions/staff.js';
 
 import BoardsList from '../components/BoardsList';
+import Heading from '../components/Heading';
 
 const Boards = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Boards = () => {
 
   return (
     <>
-      <h1 className="fs-2 mb-4">Электронные интерактивные доски</h1>
+      <Heading>Интерактивные доски</Heading>
       <BoardsList />
     </>
   );
