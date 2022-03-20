@@ -1,10 +1,10 @@
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const dotenv = require('dotenv');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -19,6 +19,9 @@ const config = {
       template: 'src/static/index.html',
     }),
     new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
   ],
   module: {
     rules: [
@@ -58,4 +61,4 @@ const config = {
   },
 };
 
-export default config;
+module.exports = config;
