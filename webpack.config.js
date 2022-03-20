@@ -12,7 +12,7 @@ const config = {
   mode: isProduction ? 'production' : 'development',
   entry: './src/client/index.jsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
   },
   plugins: [
     new HtmlWebpackPlugin({
