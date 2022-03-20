@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import config from './config';
 import boardsRouter from './routes/board';
@@ -9,6 +10,8 @@ import staffRouter from './routes/staff';
 const PORT = config.port;
 
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
