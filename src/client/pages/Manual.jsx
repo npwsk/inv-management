@@ -1,7 +1,11 @@
-import React from 'react';
+import Heading from '../components/Heading';
 
 const Manual = () => {
-  return <div>Руководство пользователя</div>;
+  return (
+    <>
+      <Heading>Руководство пользователя</Heading>
+    </>
+  );
 };
 
 export default Manual;

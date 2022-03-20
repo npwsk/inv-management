@@ -1,7 +1,11 @@
-import React from 'react';
+import Heading from '../components/Heading';
 
 const Reports = () => {
-  return <div>Reports</div>;
+  return (
+    <>
+      <Heading>Отчеты</Heading>
+    </>
+  );
 };
 
 export default Reports;
