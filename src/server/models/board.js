@@ -68,18 +68,22 @@ Board.findById = (id, callback) => {
   });
 };
 
-Board.getAll = ({ inventoryNumber, state }, callback) => {
+Board.getAll = (conditions, callback) => {
   let queryString = 'SELECT * FROM InteractiveBoard';
 
-  if (inventoryNumber) {
+  if (conditions.inventoryNumber) {
     queryString += ' WHERE inventory_number=:inventoryNumber';
   }
 
-  if (state) {
+  if (conditions.state) {
     queryString += ' WHERE state=:state';
   }
 
-  db.query(queryString, { state, inventoryNumber }, (err, res) => {
+  if (conditions.staffId) {
+    queryString += ' WHERE staff_id=:staffId';
+  }
+
+  db.query(queryString, conditions, (err, res) => {
     if (err) {
       console.log('Error:', err);
       callback(null, err);
@@ -89,26 +93,6 @@ Board.getAll = ({ inventoryNumber, state }, callback) => {
     console.log('Boards:', res);
     callback(null, res);
   });
-};
-
-Board.getAllDeprecatedIn = (months, callback) => {
-  db.query(
-    'SELECT * FROM InteractiveBoard WHERE ' +
-      'DATE_ADD(usage_start_date, INTERVAL deprecation_period MONTH)' +
-      '<= DATE_ADD(CURDATE(), INTERVAL :months MONTH) ' +
-      'AND state <> "не исправно";',
-    { months },
-    (err, res) => {
-      if (err) {
-        console.log('Error:', err);
-        callback(null, err);
-        return;
-      }
-
-      console.log('Boards:', res);
-      callback(null, res);
-    }
-  );
 };
 
 Board.updateById = (id, board, callback) => {

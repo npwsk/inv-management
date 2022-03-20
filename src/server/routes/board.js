@@ -8,8 +8,6 @@ router.post('/', boards.create);
 
 router.get('/', boards.findAll);
 
-router.get('/deprecated', boards.findAllDeprecIn);
-
 router.get('/:id', boards.findById);
 
 router.put('/:id', boards.update);

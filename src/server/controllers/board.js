@@ -39,9 +39,7 @@ export const create = (req, res) => {
 
 // Get all boards or all boards with condition
 export const findAll = (req, res) => {
-  const { inventoryNumber, state } = req.query;
-
-  Board.getAll({ inventoryNumber, state }, (err, data) => {
+  Board.getAll(req.query, (err, data) => {
     if (err) {
       res.status(500).send({
         message: err.message || 'Some error occurred while retrieving boards.',
@@ -66,21 +64,6 @@ export const findById = (req, res) => {
         });
       }
     } else res.send(data);
-  });
-};
-
-// Get all boards to be deprecated in a given number of months
-export const findAllDeprecIn = (req, res) => {
-  const { left } = req.query;
-
-  Board.getAllDeprecatedIn(left, (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving boards.',
-      });
-    } else {
-      res.send(data);
-    }
   });
 };
 
