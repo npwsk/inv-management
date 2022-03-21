@@ -54,7 +54,8 @@ const BoardsList = () => {
     };
   });
 
-  console.log(boards);
+  const isLoaded =
+    boards && boards.length && locations && locations.length && staffMembers && staffMembers.length;
 
   return (
     <>
@@ -69,14 +70,9 @@ const BoardsList = () => {
             ))}
           </tr>
         </thead>
-        <tbody>
-          {boards &&
-            boards.length &&
-            locations &&
-            locations.length &&
-            staffMembers &&
-            staffMembers.length &&
-            boards.map((board) => (
+        {isLoaded ? (
+          <tbody>
+            {boards.map((board) => (
               <tr key={`row-${board.board_id}`}>
                 <td>
                   <LinkContainer to={`/boards/${board.board_id}`}>
@@ -95,7 +91,8 @@ const BoardsList = () => {
                 ))}
               </tr>
             ))}
-        </tbody>
+          </tbody>
+        ) : null}
       </Table>
     </>
   );
