@@ -4,6 +4,8 @@ import { Table, Button } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { PlusLg } from 'react-bootstrap-icons';
+
 const tableHeadings = {
   board_id: '#',
   inventory_number: 'Инвентарный номер',
@@ -55,7 +57,7 @@ const BoardsList = () => {
   console.log(boards);
 
   return (
-    <div>
+    <>
       <Table responsive bordered hover className="align-middle">
         <thead className="table-dark">
           <tr>
@@ -95,7 +97,7 @@ const BoardsList = () => {
             ))}
         </tbody>
       </Table>
-    </div>
+    </>
   );
 };
 

@@ -1,12 +1,10 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
-import Boards from './pages/Boards';
-import Board from './pages/Board';
+import BoardsRouting from './pages/BoardsRouting';
 import Reports from './pages/Reports';
 import About from './pages/About';
 import Manual from './pages/Manual';
-import NewBoard from './pages/NewBoard';
 import Footer from './components/Footer';
 import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
@@ -17,11 +15,8 @@ const App = () => {
       <div className="d-flex flex-column min-vh-100">
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Boards />} />
-            <Route path="boards" element={<Boards />}>
-              <Route path=":id" element={<Board />} />
-              <Route path="new" element={<NewBoard />} />
-            </Route>
+            <Route index element={<BoardsRouting />} />
+            <Route path="boards/*" element={<BoardsRouting />} />
             <Route path="reports" element={<Reports />} />
             <Route path="about" element={<About />} />
             <Route path="manual" element={<Manual />} />
