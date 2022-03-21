@@ -79,9 +79,10 @@ const BoardsList = () => {
                 <td>
                   <LinkContainer to={`/boards/${board.board_id}`}>
                     <Button
-                      variant="outline-secondary"
+                      variant="link"
                       size="sm"
                       className="d-flex align-items-center px-1"
+                      title="Редактировать"
                     >
                       <PencilSquare />
                     </Button>
