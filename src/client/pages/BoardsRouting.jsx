@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router';
 
 import { getBoards } from '../actions/board.js';
@@ -19,12 +19,19 @@ const BoardsRouting = () => {
     dispatch(getStaffMembers());
   }, [dispatch]);
 
+  const boards = useSelector((state) => state.boards);
+  const locations = useSelector((state) => state.locations);
+  const staffMembers = useSelector((state) => state.staff);
+
+  const isLoaded =
+    boards && boards.length && locations && locations.length && staffMembers && staffMembers.length;
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Boards />} />
-        <Route path=":id" element={<Board />} />
-        <Route path="new" element={<NewBoard />} />
+        <Route path="/" element={<Boards isLoaded={isLoaded} />} />
+        <Route path=":id" element={<Board isLoaded={isLoaded} />} />
+        <Route path="new" element={<NewBoard isLoaded={isLoaded} />} />
       </Routes>
     </>
   );

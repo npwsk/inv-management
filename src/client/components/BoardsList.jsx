@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
-
 import { Table, Button } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { PlusLg } from 'react-bootstrap-icons';
+import { staffToStr, locationToStr, formatDate } from '../utils/format';
 
 const tableHeadings = {
   board_id: '#',
@@ -23,19 +22,8 @@ const tableHeadings = {
   staff: 'Ответственный сотрудник',
 };
 
-const staffToStr = (obj = {}) =>
-  Object.entries(obj)
-    .filter(([prop]) => prop !== 'id')
-    .map(([, val]) => val)
-    .join(' ');
-
-const locationToStr = (location = {}) => `${location.building}, ${location.room} каб.`;
-
-const formatDate = (str) => new Date(str).toLocaleDateString('ru-RU');
-
-const BoardsList = () => {
+const BoardsList = ({ isLoaded, ...props }) => {
   const locations = useSelector((state) => state.locations);
-
   const staffMembers = useSelector((state) => state.staff);
 
   const boards = useSelector((state) => state.boards).map((board) => {
@@ -53,9 +41,6 @@ const BoardsList = () => {
       staff: staffToStr(staff),
     };
   });
-
-  const isLoaded =
-    boards && boards.length && locations && locations.length && staffMembers && staffMembers.length;
 
   return (
     <>
