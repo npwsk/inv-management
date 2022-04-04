@@ -1,9 +1,6 @@
-import { useSelector } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
-
-import { staffToStr, locationToStr, formatDate } from '../utils/format';
 
 const tableHeadings = {
   board_id: '#',
@@ -22,25 +19,8 @@ const tableHeadings = {
   staff: 'Ответственный сотрудник',
 };
 
-const BoardsList = ({ isLoaded, ...props }) => {
-  const locations = useSelector((state) => state.locations);
-  const staffMembers = useSelector((state) => state.staff);
-
-  const boards = useSelector((state) => state.boards).map((board) => {
-    const location = locations?.find(({ id }) => id === board.location_id);
-    const staff = staffMembers?.find(({ id }) => id === board.staff_id);
-
-    const registration_date = formatDate(board.registration_date);
-    const usage_start_date = formatDate(board.usage_start_date);
-
-    return {
-      ...board,
-      registration_date,
-      usage_start_date,
-      location: locationToStr(location),
-      staff: staffToStr(staff),
-    };
-  });
+const BoardsList = ({ boards, locations, staffMembers, ...props }) => {
+  const isLoaded = boards && locations && staffMembers;
 
   return (
     <>

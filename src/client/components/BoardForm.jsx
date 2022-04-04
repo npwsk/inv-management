@@ -190,7 +190,7 @@ const BoardForm = ({ handleSubmit, isLoaded }) => {
                     name="staffMember"
                   >
                     {isLoaded
-                      ? Object.entries(staff).map((staff) => (
+                      ? Object.entries(staffMembers).map((staff) => (
                           <option key={`staff-option-${staff.id}`}>{format.staffToStr}</option>
                         ))
                       : null}
