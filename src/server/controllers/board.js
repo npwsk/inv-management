@@ -9,21 +9,22 @@ export const create = (req, res) => {
   }
 
   // Create new board
-  const board = new Board({
-    manufacturer: req.body.manufacturer,
-    model: req.body.model,
-    diagSize: req.body.diagSize,
-    inventoryNumber: req.body.inventoryNumber,
-    registrationDate: req.body.registrationDate,
-    usageStartDate: req.body.usageStartDate,
-    deprecationPeriod: req.body.deprecationPeriod,
-    repairStartDate: req.body.repairStartDate,
-    failureReason: req.body.failureReason,
-    state: req.body.state,
-    technology: req.body.technology,
-    locationId: req.body.locationId,
-    staffMemberId: req.body.staffMemberId,
-  });
+  const board = new Board(req.body);
+  // const board = new Board({
+  //   manufacturer: req.body.manufacturer,
+  //   model: req.body.model,
+  //   diagSize: req.body.diagSize,
+  //   inventoryNumber: req.body.inventoryNumber,
+  //   registrationDate: req.body.registrationDate,
+  //   usageStartDate: req.body.usageStartDate,
+  //   deprecationPeriod: req.body.deprecationPeriod,
+  //   repairStartDate: req.body.repairStartDate,
+  //   failureReason: req.body.failureReason,
+  //   state: req.body.state,
+  //   technology: req.body.technology,
+  //   locationId: req.body.locationId,
+  //   staffMemberId: req.body.staffMemberId,
+  // });
 
   // Save board in database
   Board.create(board, (err, data) => {

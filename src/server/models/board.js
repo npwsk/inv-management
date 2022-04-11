@@ -51,28 +51,70 @@ Board.create = (board, callback) => {
 };
 
 Board.findById = (id, callback) => {
-  db.query('SELECT * FROM InteractiveBoard WHERE board_id = :id;', { id }, (err, res) => {
-    if (err) {
-      console.log('Error:', err);
-      callback(err, null);
-      return;
-    }
+  db.query(
+    `SELECT
+      inventory_number AS inventoryNumber,
+      manufacturer,
+      model,
+      diag_size AS diagSize,
+      registration_date AS registrationDate,
+      usage_start_date AS usageStartDate,
+      deprecation_period AS deprecationPeriod,
+      repair_start_date AS repairStartDate,
+      failure_reason AS failureReason,
+      state,
+      technology,
+      location_id AS locationId,
+      staff_id AS staffId
+    FROM InteractiveBoard
+      WHERE inventory_number = :id;`,
+    { id },
+    (err, res) => {
+      if (err) {
+        console.log('Error:', err);
+        callback(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log('Found board: ', res[0]);
-      callback(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log('Found board: ', res[0]);
+        callback(null, res[0]);
+        return;
+      }
 
-    result({ kind: 'not_found' }, null);
-  });
+      result({ kind: 'not_found' }, null);
+    }
+  );
 };
 
 Board.getAll = (conditions, callback) => {
-  let queryString = 'SELECT * FROM InteractiveBoard';
+  let queryString = `SELECT
+      inventory_number AS inventoryNumber,
+      manufacturer,
+      model,
+      diag_size AS diagSize,
+      registration_date AS registrationDate,
+      usage_start_date AS usageStartDate,
+      deprecation_period AS deprecationPeriod,
+      repair_start_date AS repairStartDate,
+      failure_reason AS failureReason,
+      state,
+      technology,
+      CONCAT("Корпус ", dl.building, ", ауд. ", dl.room) AS location,
+      CONCAT(SUBSTRING(sm.first_name, 1, 1), ".", SUBSTRING(sm.middle_name, 1, 1),
+        ". ", sm.last_name) AS staff
+      FROM InteractiveBoard AS ib`;
 
-  if (conditions.inventoryNumber) {
-    queryString += ' WHERE inventory_number=:inventoryNumber';
+  if (conditions.fromRegDate && !conditions.toRegDate) {
+    queryString += ' WHERE registration_date >= :fromRegDate';
+  }
+
+  if (!conditions.fromRegDate && conditions.toRegDate) {
+    queryString += ' WHERE registration_date <= :toRegDate';
+  }
+
+  if (conditions.fromRegDate && conditions.toRegDate) {
+    queryString += ' WHERE registration_date >= :fromRegDate AND registration_date <= :toRegDate';
   }
 
   if (conditions.state) {
@@ -82,6 +124,15 @@ Board.getAll = (conditions, callback) => {
   if (conditions.staffId) {
     queryString += ' WHERE staff_id=:staffId';
   }
+
+  if (conditions.locationId) {
+    queryString += ' WHERE location_id=:locationId';
+  }
+
+  queryString += `INNER JOIN DeviceLocation AS dl
+    ON location_id = dl.id
+  INNER JOIN StaffMember AS sm
+    ON staff_id = sm.id;`;
 
   db.query(queryString, conditions, (err, res) => {
     if (err) {
@@ -97,12 +148,21 @@ Board.getAll = (conditions, callback) => {
 
 Board.updateById = (id, board, callback) => {
   db.query(
-    'UPDATE InteractiveBoard SET location_id = :locationId, staff_id = :staffId, ' +
-      'manufacturer = :manufacturer, model = :model, diag_size = :diagSize, ' +
-      'inventory_number = :inventoryNumber, registration_date = :registrationDate, ' +
-      'usage_start_date = :usageStartDate, deprecation_period = :deprecationPeriod, ' +
-      'repair_start_date = :repairStartDate, failure_reason = :failureReason, ' +
-      'state = :state, technology = :technology WHERE board_id = :id;',
+    `UPDATE InteractiveBoard
+      SET
+        location_id = :locationId,
+        staff_id = :staffId,
+        manufacturer = :manufacturer,
+        model = :model,
+        diag_size = :diagSize,
+        registration_date = :registrationDate,
+        usage_start_date = :usageStartDate,
+        deprecation_period = :deprecationPeriod,
+        repair_start_date = :repairStartDate,
+        failure_reason = :failureReason,
+        state = :state,
+        technology = :technology
+      WHERE inventory_number = :id`,
     { id, ...board },
     (err, res) => {
       if (err) {
@@ -124,7 +184,7 @@ Board.updateById = (id, board, callback) => {
 };
 
 Board.remove = (id, callback) => {
-  db.query('DELETE FROM InteractiveBoard WHERE board_id = ?;', id, (err, res) => {
+  db.query('DELETE FROM InteractiveBoard WHERE inventory_number = ?;', id, (err, res) => {
     if (err) {
       console.log('Error: ', err);
       callback(null, err);
