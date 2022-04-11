@@ -1,4 +1,4 @@
-import { CREATE_LOCATION, GET_LOCATIONS, UPDATE_LOCATION } from '../actions/types.js';
+import { CREATE_LOCATION, GET_LOCATIONS, GET_LOCATION, UPDATE_LOCATION } from '../actions/types.js';
 
 const initialState = [];
 
@@ -10,6 +10,9 @@ const locationReducer = (locations = initialState, action) => {
       return [...locations, payload];
 
     case GET_LOCATIONS:
+      return payload;
+
+    case GET_LOCATION:
       return payload;
 
     case UPDATE_LOCATION:

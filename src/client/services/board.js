@@ -21,12 +21,40 @@ class BoardDataService {
     return http.delete(`/boards/${id}`);
   }
 
-  findByInventoryNumber(number) {
-    return http.get(`/boards?inventoryNumber=${number}`);
+  findByParams({ state, staffId, locationId, regDate }) {
+    const params = [];
+    if (state) {
+      params.push(`state=${state}`);
+    }
+    if (staffId) {
+      params.push(`staffId=${staffId}`);
+    }
+    if (staffId) {
+      params.push(`locationId=${locationId}`);
+    }
+    if (regDate?.from) {
+      params.push(`fromRegDate=${regDate.from}`);
+    }
+    if (regDate?.to) {
+      params.push(`toRegDate=${regDate.to}`);
+    }
+
+    return http.get(`/boards?${params.join('&')}`);
   }
 
   findByState(state) {
     return http.get(`/boards?state=${state}`);
+  }
+
+  findByRegDate({ from, to }) {
+    const params = [];
+    if (from) {
+      params.push(`fromRegDate=${from}`);
+    }
+    if (to) {
+      params.push(`toRegDate=${to}`);
+    }
+    return http.get(`/boards?${params.join('&')}`);
   }
 
   findByStaffId(id) {

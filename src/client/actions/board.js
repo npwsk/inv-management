@@ -1,4 +1,4 @@
-import { CREATE_BOARD, GET_BOARDS, UPDATE_BOARD, DELETE_BOARD } from './types.js';
+import { CREATE_BOARD, GET_BOARDS, GET_BOARD, UPDATE_BOARD, DELETE_BOARD } from './types.js';
 import BoardDataService from '../services/board.js';
 
 export const createBoard = (props) => async (dispatch) => {
@@ -22,6 +22,19 @@ export const getBoards = () => async (dispatch) => {
 
     dispatch({
       type: GET_BOARDS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getBoard = (id) => async (dispatch) => {
+  try {
+    const res = await BoardDataService.get(id);
+
+    dispatch({
+      type: GET_BOARD,
       payload: res.data,
     });
   } catch (err) {
@@ -57,9 +70,9 @@ export const deleteBoard = (id) => async (dispatch) => {
   }
 };
 
-export const findBoardsByNumber = (number) => async (dispatch) => {
+export const findBoardsByParams = (params) => async (dispatch) => {
   try {
-    const res = await BoardDataService.findByInventoryNumber(number);
+    const res = await BoardDataService.findByParams(params);
 
     dispatch({
       type: GET_BOARDS,
@@ -69,6 +82,19 @@ export const findBoardsByNumber = (number) => async (dispatch) => {
     console.log(err);
   }
 };
+
+// export const findBoardsByNumber = (number) => async (dispatch) => {
+//   try {
+//     const res = await BoardDataService.findByInventoryNumber(number);
+
+//     dispatch({
+//       type: GET_BOARDS,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 export const findBoardsByState = (state) => async (dispatch) => {
   try {

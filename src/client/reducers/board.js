@@ -1,4 +1,10 @@
-import { CREATE_BOARD, GET_BOARDS, UPDATE_BOARD, DELETE_BOARD } from '../actions/types.js';
+import {
+  CREATE_BOARD,
+  GET_BOARDS,
+  GET_BOARD,
+  UPDATE_BOARD,
+  DELETE_BOARD,
+} from '../actions/types.js';
 
 const initialState = [];
 
@@ -12,9 +18,12 @@ const boardReducer = (boards = initialState, action) => {
     case GET_BOARDS:
       return payload;
 
+    case GET_BOARD:
+      return payload;
+
     case UPDATE_BOARD:
       return boards.map((board) => {
-        if (board.id === payload.id) {
+        if (board.inventoryNumber === payload.id) {
           return {
             ...board,
             ...payload,
@@ -25,7 +34,7 @@ const boardReducer = (boards = initialState, action) => {
       });
 
     case DELETE_BOARD:
-      return boards.filter(({ id }) => id !== payload.id);
+      return boards.filter(({ inventoryNumber }) => inventoryNumber !== payload.id);
 
     default:
       return boards;

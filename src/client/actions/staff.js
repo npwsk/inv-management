@@ -1,4 +1,9 @@
-import { CREATE_STAFF_MEMBER, GET_STAFF_MEMBERS, UPDATE_STAFF_MEMBER } from './types.js';
+import {
+  CREATE_STAFF_MEMBER,
+  GET_STAFF_MEMBERS,
+  GET_STAFF_MEMBER,
+  UPDATE_STAFF_MEMBER,
+} from './types.js';
 import StaffDataService from '../services/staff.js';
 
 export const createStaffMember = (data) => async (dispatch) => {
@@ -22,6 +27,19 @@ export const getStaffMembers = () => async (dispatch) => {
 
     dispatch({
       type: GET_STAFF_MEMBERS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getStaffMember = (id) => async (dispatch) => {
+  try {
+    const res = await StaffDataService.get(id);
+
+    dispatch({
+      type: GET_STAFF_MEMBER,
       payload: res.data,
     });
   } catch (err) {

@@ -1,4 +1,9 @@
-import { CREATE_STAFF_MEMBER, GET_STAFF_MEMBERS, UPDATE_STAFF_MEMBER } from '../actions/types.js';
+import {
+  CREATE_STAFF_MEMBER,
+  GET_STAFF_MEMBERS,
+  GET_STAFF_MEMBER,
+  UPDATE_STAFF_MEMBER,
+} from '../actions/types.js';
 
 const initialState = [];
 
@@ -10,6 +15,9 @@ const staffReducer = (staffMembers = initialState, action) => {
       return [...staffMembers, payload];
 
     case GET_STAFF_MEMBERS:
+      return payload;
+
+    case GET_STAFF_MEMBER:
       return payload;
 
     case UPDATE_STAFF_MEMBER:

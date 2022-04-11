@@ -1,4 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { getBoards } from './actions/board.js';
+import { getLocations } from './actions/location.js';
+import { getStaffMembers } from './actions/staff.js';
 
 import Button from 'react-bootstrap/Button';
 import BoardsRouting from './pages/BoardsRouting';
@@ -10,6 +16,14 @@ import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBoards());
+    dispatch(getLocations());
+    dispatch(getStaffMembers());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className="d-flex flex-column min-vh-100">

@@ -1,46 +1,46 @@
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Spinner } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
+import useBoards from '../hooks/useBoards';
 
 const tableHeadings = {
-  board_id: '#',
-  inventory_number: 'Инвентарный номер',
+  inventoryNumber: 'Инвентарный номер',
   manufacturer: 'Производитель',
   model: 'Модель',
-  diag_size: 'Диагональ (дюймы)',
-  registration_date: 'Дата регистрации',
-  usage_start_date: 'Дата начала эксплуатации',
-  deprecation_period: 'Период амортизации (месяцев)',
-  repair_start_date: 'Дата начала ремонта',
-  failure_reason: 'Причина поломки',
+  diagSize: 'Диагональ (дюймы)',
+  registrationDate: 'Дата регистрации',
+  usageStartDate: 'Дата начала эксплуатации',
+  deprecationPeriod: 'Период амортизации (месяцев)',
+  repairStartDate: 'Дата начала ремонта',
+  failureReason: 'Причина поломки',
   state: 'Состояние',
   technology: 'Технология',
   location: 'Место нахождения',
   staff: 'Ответственный сотрудник',
 };
 
-const BoardsList = ({ boards, locations, staffMembers, ...props }) => {
-  const isLoaded = boards && locations && staffMembers;
+const BoardsList = ({ ...props }) => {
+  const boards = useBoards();
 
   return (
     <>
-      <Table responsive bordered hover className="align-middle">
-        <thead className="table-dark">
-          <tr>
-            <th></th>
-            {Object.entries(tableHeadings).map(([key, text]) => (
-              <th key={key} className="align-middle text-center">
-                {text}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        {isLoaded ? (
+      {boards && boards.length ? (
+        <Table responsive bordered hover className="align-middle">
+          <thead className="table-dark">
+            <tr>
+              <th></th>
+              {Object.entries(tableHeadings).map(([key, text]) => (
+                <th key={key} className="align-middle text-center">
+                  {text}
+                </th>
+              ))}
+            </tr>
+          </thead>
           <tbody>
             {boards.map((board) => (
-              <tr key={`row-${board.board_id}`}>
+              <tr key={`row-${board.inventoryNumber}`}>
                 <td>
-                  <LinkContainer to={`/boards/${board.board_id}`}>
+                  <LinkContainer to={`/boards/${board.inventoryNumber}`}>
                     <Button
                       variant="link"
                       size="sm"
@@ -52,13 +52,19 @@ const BoardsList = ({ boards, locations, staffMembers, ...props }) => {
                   </LinkContainer>
                 </td>
                 {Object.keys(tableHeadings).map((prop) => (
-                  <td key={`${board.id}-${prop}`}>{board[prop]}</td>
+                  <td key={`${board.inventoryNumber}-${prop}`}>{board[prop]}</td>
                 ))}
               </tr>
             ))}
           </tbody>
-        ) : null}
-      </Table>
+        </Table>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" variant="secondary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
     </>
   );
 };
