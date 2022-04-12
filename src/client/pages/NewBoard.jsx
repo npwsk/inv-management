@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button } from 'react-bootstrap';
+import { Button, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import Heading from '../components/Heading';
@@ -51,13 +51,17 @@ const NewBoard = () => {
     <>
       {sumbitted ? (
         <>
-          <Heading>Устройство добавлено!</Heading>
-          <LinkContainer to="/boards/new" className="mb-3 lh-1" title="Добавить устройство">
-            <Button variant="outline-primary">К списку устройств</Button>
-          </LinkContainer>
-          <Button variant="success" size="lg" onClick={startNewBoard}>
-            Добавить
-          </Button>
+          <Heading className="text-center mb-2">Устройство добавлено!</Heading>
+          <Stack gap={2} className="col-md-5 mx-auto">
+            <LinkContainer to="/boards/" title="Добавить устройство">
+              <Button variant="outline-primary" size="lg">
+                К списку устройств
+              </Button>
+            </LinkContainer>
+            <Button variant="success" size="lg" onClick={startNewBoard}>
+              Добавить
+            </Button>
+          </Stack>
         </>
       ) : (
         <>
