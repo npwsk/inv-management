@@ -1,9 +1,7 @@
-const SERVICEABLE = 'исправно';
-const MALFUNCTIONING = 'не исправно';
-const IN_REPAIR = 'в ремонте';
-
-export default {
-  SERVICEABLE,
-  MALFUNCTIONING,
-  IN_REPAIR,
+const states = {
+  SERVICEABLE: 'исправно',
+  MALFUNCTIONING: 'не исправно',
+  IN_REPAIR: 'в ремонте',
 };
+
+export default states;

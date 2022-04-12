@@ -1,4 +1,6 @@
-const OPTICAL = 'оптическая';
-const INFRARED = 'инфракрасная';
+const technologies = {
+  OPTICAL: 'оптическая',
+  INFRARED: 'инфракрасная',
+};
 
-export default { OPTICAL, INFRARED };
+export default technologies;

@@ -9,6 +9,7 @@ import useBoards from '../hooks/useBoards';
 
 const Boards = () => {
   const boards = useBoards();
+  console.log(boards);
 
   return (
     <>

@@ -2,17 +2,35 @@ import mysql from 'mysql2';
 
 import config from './config';
 
-const db = mysql.createConnection({
+const pool = mysql.createPool({
   ...config.db,
   namedPlaceholders: true,
 });
 
-db.connect((error) => {
-  if (error) {
-    throw error;
-  }
+const connectionWrapper = {
+  query: (...args) => {
+    let sqlArgs = [];
 
-  console.log('Successfully connected to the database.');
-});
+    const callback = args[args.length - 1]; //last arg is callback
 
-export default db;
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.log(err);
+        return callback(err);
+      }
+      if (args.length > 2) {
+        sqlArgs = args[1];
+      }
+      connection.query(args[0], sqlArgs, (err, results) => {
+        connection.release(); // always put connection back in pool after last query
+        if (err) {
+          console.log(err);
+          return callback(err);
+        }
+        callback(null, results);
+      });
+    });
+  },
+};
+
+export default connectionWrapper;

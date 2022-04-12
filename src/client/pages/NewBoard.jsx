@@ -22,7 +22,7 @@ const NewBoard = () => {
     usageStartDate: today,
     deprecationPeriod: 24,
     state: 'Исправно',
-    // repairStartDate: '',
+    repairStartDate: '',
     failureReason: '',
     staffId: '',
     locationId: '',

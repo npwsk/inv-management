@@ -56,14 +56,17 @@ const BoardForm = ({ initialValues, onSubmit }) => {
             <Formik
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
-                onSubmit(values);
+                onSubmit({
+                  ...values,
+                  staffId: Number(values.staffId),
+                  locationId: Number(values.locationId),
+                });
                 setSubmitting(false);
               }}
               initialValues={initialValues}
             >
               {({ handleSubmit, handleChange, values, errors, isValid, isSubmitting }) => (
                 <Form noValidate onSubmit={handleSubmit}>
-                  {console.log(values.repairStartDate)}
                   <Row>
                     <FormInput
                       as={Col}
@@ -103,8 +106,8 @@ const BoardForm = ({ initialValues, onSubmit }) => {
                       type="text"
                       name="technology"
                     >
-                      {technologies.map((val) => (
-                        <option key={val}>{val}</option>
+                      {Object.entries(technologies).map(([techn, val]) => (
+                        <option key={techn}>{val}</option>
                       ))}
                     </FormSelect>
                   </Row>
@@ -160,8 +163,8 @@ const BoardForm = ({ initialValues, onSubmit }) => {
                       type="text"
                       name="state"
                     >
-                      {states.map((state) => (
-                        <option key={state}>{state}</option>
+                      {Object.entries(states).map(([state, val]) => (
+                        <option key={state}>{val}</option>
                       ))}
                     </FormSelect>
                     {values.state === states.IN_REPAIR ? (
@@ -222,9 +225,11 @@ const BoardForm = ({ initialValues, onSubmit }) => {
                     </FormSelect>
                   </Row>
                   <Row>
-                    <Button variant="success" size="lg" type="submit">
-                      Сохранить
-                    </Button>
+                    <div>
+                      <Button variant="success" size="lg" type="submit">
+                        Сохранить
+                      </Button>
+                    </div>
                   </Row>
                 </Form>
               )}
