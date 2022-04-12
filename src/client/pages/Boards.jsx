@@ -5,7 +5,11 @@ import { PlusLg } from 'react-bootstrap-icons';
 import Heading from '../components/Heading';
 import BoardsList from '../components/BoardsList';
 
+import useBoards from '../hooks/useBoards';
+
 const Boards = () => {
+  const boards = useBoards();
+
   return (
     <>
       <Heading>Интерактивные доски</Heading>
@@ -15,7 +19,7 @@ const Boards = () => {
           Добавить
         </Button>
       </LinkContainer>
-      <BoardsList />
+      <BoardsList boards={boards} />
     </>
   );
 };

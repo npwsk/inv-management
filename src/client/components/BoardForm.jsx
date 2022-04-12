@@ -6,42 +6,46 @@ import * as yup from 'yup';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 import * as format from '../utils/format';
+import states from '../../constants/boardStates';
+import technologies from '../../constants/boardTechnologies';
 
-const BoardForm = ({ handleSubmit }) => {
+const initialSchema = {
+  manufacturer: yup.string().required('Это обязательное поле'),
+  model: yup.string().required('Это обязательное поле'),
+  diagSize: yup
+    .number('Значение должно быть числом')
+    .required('Это обязательное поле')
+    .integer('Значение должно быть целым')
+    .positive('Значение должно быть положительным'),
+  registrationDate: yup.date().required('Это обязательное поле'),
+  usageStartDate: yup.date().required('Это обязательное поле'),
+  deprecationPeriod: yup
+    .number()
+    .required('Это обязательное поле')
+    .integer('Значение должно быть целым')
+    .positive('Значение должно быть положительным')
+    .max(1000, 'Значение не должно превышать 1000'),
+  state: yup.string().required('Это обязательное поле'),
+  repairStartDate: yup.date('Это обязательное поле').when('state', {
+    is: 'В ремонте',
+    then: (schema) => schema.required('Это обязательное поле'),
+    otherwise: (schema) => schema.nullable(),
+  }),
+  staffId: yup.number().required('Это обязательное поле'),
+  locationId: yup.number().required('Это обязательное поле'),
+};
+
+const BoardForm = ({ initialValues, onSubmit }) => {
   const locations = useSelector((state) => state.locations);
   const staffMembers = useSelector((state) => state.staff);
   const boardsNums = useSelector((state) => state.boards).map((board) => board.inventoryNumber);
 
-  const today = new Date().toISOString().slice(0, 10);
-
   const schema = yup.object({
-    manufacturer: yup.string().required('Это обязательное поле'),
-    model: yup.string().required('Это обязательное поле'),
-    diagSize: yup
-      .number('Значение должно быть числом')
-      .required('Это обязательное поле')
-      .integer('Значение должно быть целым')
-      .positive('Значение должно быть положительным'),
+    ...initialSchema,
     inventoryNumber: yup
       .string()
       .required('Это обязательное поле')
       .notOneOf(boardsNums, 'Этот номер уже используется'),
-    registrationDate: yup.date().required('Это обязательное поле'),
-    usageStartDate: yup.date().required('Это обязательное поле'),
-    deprecationPeriod: yup
-      .number()
-      .required('Это обязательное поле')
-      .integer('Значение должно быть целым')
-      .positive('Значение должно быть положительным')
-      .max(1000, 'Значение не должно превышать 1000'),
-    state: yup.string().required('Это обязательное поле'),
-    repairStartDate: yup.date('Это обязательное поле').when('state', {
-      is: 'В ремонте',
-      then: (schema) => schema.required('Это обязательное поле'),
-      otherwise: (schema) => schema.nullable(),
-    }),
-    staffMember: yup.string().required('Это обязательное поле'),
-    location: yup.string().required('Это обязательное поле'),
   });
 
   return (
@@ -52,27 +56,14 @@ const BoardForm = ({ handleSubmit }) => {
             <Formik
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
+                onSubmit(values);
                 setSubmitting(false);
               }}
-              initialValues={{
-                manufacturer: '',
-                model: '',
-                diagSize: 1,
-                technology: 'Инфракрасная',
-                inventoryNumber: '',
-                registrationDate: today,
-                usageStartDate: today,
-                deprecationPeriod: 24,
-                state: 'Исправно',
-                repairStartDate: '',
-                failureReason: '',
-                staffMember: '',
-                location: '',
-              }}
+              initialValues={initialValues}
             >
               {({ handleSubmit, handleChange, values, errors, isValid, isSubmitting }) => (
                 <Form noValidate onSubmit={handleSubmit}>
+                  {console.log(values.repairStartDate)}
                   <Row>
                     <FormInput
                       as={Col}
@@ -112,8 +103,9 @@ const BoardForm = ({ handleSubmit }) => {
                       type="text"
                       name="technology"
                     >
-                      <option>Инфракрасная</option>
-                      <option>Оптическая</option>
+                      {technologies.map((val) => (
+                        <option key={val}>{val}</option>
+                      ))}
                     </FormSelect>
                   </Row>
 
@@ -168,11 +160,11 @@ const BoardForm = ({ handleSubmit }) => {
                       type="text"
                       name="state"
                     >
-                      <option>Исправно</option>
-                      <option>Не исправно</option>
-                      <option>В ремонте</option>
+                      {states.map((state) => (
+                        <option key={state}>{state}</option>
+                      ))}
                     </FormSelect>
-                    {values.state === 'В ремонте' ? (
+                    {values.state === states.IN_REPAIR ? (
                       <>
                         <FormInput
                           as={Col}
@@ -203,11 +195,13 @@ const BoardForm = ({ handleSubmit }) => {
                       controlId="staffFormik"
                       label="Ответственный сотрудник"
                       type="text"
-                      name="staffMember"
+                      name="staffId"
                     >
                       <option value="">Выбрать сотрудника</option>
                       {staffMembers.map((staff) => (
-                        <option key={`staff-option-${staff.id}`}>{format.staffToStr(staff)}</option>
+                        <option key={`staff-option-${staff.id}`} value={staff.id}>
+                          {format.staffToStr(staff)}
+                        </option>
                       ))}
                     </FormSelect>
                     <FormSelect
@@ -217,11 +211,11 @@ const BoardForm = ({ handleSubmit }) => {
                       controlId="locationFormik"
                       label="Место нахождения"
                       type="text"
-                      name="location"
+                      name="locationId"
                     >
                       <option value="">Выбрать место</option>
                       {locations.map((location) => (
-                        <option key={`location-option-${location.id}`}>
+                        <option key={`location-option-${location.id}`} value={location.id}>
                           {format.locationToStr(location)}
                         </option>
                       ))}

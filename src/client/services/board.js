@@ -10,6 +10,7 @@ class BoardDataService {
   }
 
   create(data) {
+    console.log(data);
     return http.post('/boards', data);
   }
 

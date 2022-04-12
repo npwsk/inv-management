@@ -1,7 +1,6 @@
 import { Table, Button, Spinner } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
-import useBoards from '../hooks/useBoards';
 
 const tableHeadings = {
   inventoryNumber: 'Инвентарный номер',
@@ -19,9 +18,7 @@ const tableHeadings = {
   staff: 'Ответственный сотрудник',
 };
 
-const BoardsList = ({ ...props }) => {
-  const boards = useBoards();
-
+const BoardsList = ({ boards, ...props }) => {
   return (
     <>
       {boards && boards.length ? (

@@ -7,9 +7,11 @@ const useBoards = () => {
   return boards?.map((board) => {
     const registrationDate = formatDate(board.registrationDate);
     const usageStartDate = formatDate(board.usageStartDate);
+    const repairStartDate = board.repairStartDate ? formatDate(board.repairStartDate) : '';
 
     return {
       ...board,
+      repairStartDate,
       registrationDate,
       usageStartDate,
     };
