@@ -23,7 +23,7 @@ Location.create = (location, callback) => {
 
       console.log('Created location: ', { id: res.insertId, ...location });
 
-      callback(null, { id: res.insertId, ...board });
+      callback(null, { id: res.insertId, ...location });
     }
   );
 };
