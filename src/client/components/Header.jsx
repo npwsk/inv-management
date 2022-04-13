@@ -35,9 +35,9 @@ const Header = () => {
                 <LinkContainer to="/about-app">
                   <NavDropdown.Item>О приложении</NavDropdown.Item>
                 </LinkContainer>
-                <LinkContainer to="/manual">
-                  <NavDropdown.Item>Руководство</NavDropdown.Item>
-                </LinkContainer>
+                <NavDropdown.Item href="/manual.pdf" download>
+                  Руководство
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
