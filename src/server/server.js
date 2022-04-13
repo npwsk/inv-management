@@ -7,11 +7,12 @@ import boardsRouter from './routes/board';
 import locationsRouter from './routes/location';
 import staffRouter from './routes/staff';
 
-const PORT = config.port;
+const PORT = config.port || 3000;
+const NODE_ENV = config.env || 'production';
 
 const app = express();
 
-app.use(express.static('build'));
+app.use(express.static(NODE_ENV === 'production' ? 'build' : 'dist'));
 
 app.use(cors());
 

@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
-    "dev": "npx webpack serve",
-    "start": "node --experimental-specifier-resolution=node src/server/server.js"
+    "build": "NODE_ENV=production webpack --mode=production",
+    "dev": "NODE_ENV=development webpack --watch",
+    "start-dev": "node --experimental-specifier-resolution=node src/server/server.js",
+    "start": "NODE_ENV=production node --experimental-specifier-resolution=node src/server/server.js"
   },
   "type": "module",
   "dependencies": {
