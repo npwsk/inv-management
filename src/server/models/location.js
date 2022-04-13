@@ -42,7 +42,7 @@ Location.getAll = (callback) => {
 };
 
 Location.findById = (id, callback) => {
-  db.query('SELECT * FROM DeviceLocation WHERE id = ?;', id, (err, res) => {
+  db.query('SELECT * FROM DeviceLocation WHERE id = :id;', { id }, (err, res) => {
     if (err) {
       console.log('Error:', err);
       callback(err, null);

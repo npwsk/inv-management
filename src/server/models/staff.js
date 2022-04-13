@@ -44,7 +44,7 @@ StaffMember.getAll = (callback) => {
 };
 
 StaffMember.findById = (id, callback) => {
-  db.query('SELECT * FROM StaffMember WHERE id = ?;', id, (err, res) => {
+  db.query('SELECT * FROM StaffMember WHERE id = :id;', { id }, (err, res) => {
     if (err) {
       console.log('Error:', err);
       callback(err, null);

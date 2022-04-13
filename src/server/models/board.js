@@ -184,7 +184,7 @@ Board.updateById = (id, board, callback) => {
 };
 
 Board.remove = (id, callback) => {
-  db.query('DELETE FROM InteractiveBoard WHERE inventory_number = ?;', id, (err, res) => {
+  db.query('DELETE FROM InteractiveBoard WHERE inventory_number = :id;', { id }, (err, res) => {
     if (err) {
       console.log('Error: ', err);
       callback(null, err);
