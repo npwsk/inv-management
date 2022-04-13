@@ -3,20 +3,14 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import FormInput from './FormInput';
-import FormSelect from './FormSelect';
-
-import buildings from '../../constants/locationBuildings';
 
 const schema = yup.object({
-  building: yup.string().required('Это обязательное поле'),
-  room: yup
-    .number('Значение должно быть числом')
-    .required('Это обязательное поле')
-    .integer('Значение должно быть целым')
-    .positive('Значение должно быть положительным'),
+  firstName: yup.string().required('Это обязательное поле'),
+  middleName: yup.string(),
+  lastName: yup.string().required('Это обязательное поле'),
 });
 
-const LocationForm = ({ initialValues, onSubmit }) => {
+const StaffForm = ({ initialValues, onSubmit }) => {
   return (
     <Container>
       <Row>
@@ -30,36 +24,42 @@ const LocationForm = ({ initialValues, onSubmit }) => {
               }}
               initialValues={initialValues}
             >
-              {({ handleSubmit, values }) => (
+              {({ handleSubmit }) => (
                 <Form noValidate onSubmit={handleSubmit}>
-                  <Row>
-                    <FormSelect
-                      as={Col}
-                      sm="12"
-                      md="4"
-                      lg="2"
-                      controlId="buildingFormik"
-                      label="Корпус"
-                      type="text"
-                      name="building"
-                    >
-                      <option value="">Выбрать кропус</option>
-                      {Object.entries(buildings).map(([building, val]) => (
-                        <option key={building}>{val}</option>
-                      ))}
-                    </FormSelect>
-                  </Row>
-
                   <Row>
                     <FormInput
                       as={Col}
                       sm="12"
                       md="4"
                       lg="2"
-                      controlId="roomFormik"
-                      label="Аудитория"
-                      type="number"
-                      name="room"
+                      controlId="lastNameFormik"
+                      label="Фамилия"
+                      type="text"
+                      name="lastName"
+                    />
+                  </Row>
+                  <Row>
+                    <FormInput
+                      as={Col}
+                      sm="12"
+                      md="4"
+                      lg="2"
+                      controlId="firstNameFormik"
+                      label="Имя"
+                      type="text"
+                      name="firstName"
+                    />
+                  </Row>
+                  <Row>
+                    <FormInput
+                      as={Col}
+                      sm="12"
+                      md="4"
+                      lg="2"
+                      controlId="middleNameFormik"
+                      label="Отчество"
+                      type="text"
+                      name="middleName"
                     />
                   </Row>
                   <Row>
@@ -85,4 +85,4 @@ const LocationForm = ({ initialValues, onSubmit }) => {
   );
 };
 
-export default LocationForm;
+export default StaffForm;

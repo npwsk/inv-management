@@ -39,20 +39,18 @@ const NewLocation = () => {
       {sumbitted ? (
         <>
           <Heading className="text-center mb-2">Локация добавлена!</Heading>
-          <Stack gap={2} className="col-md-5 mx-auto">
+          <Stack gap={3} className="col-md-5 mx-auto mt-3">
             <LinkContainer to="/locations">
-              <Button variant="outline-primary" size="lg">
-                К списку локаций
-              </Button>
+              <Button variant="outline-primary">К списку локаций</Button>
             </LinkContainer>
-            <Button variant="success" size="lg" onClick={startNewLocation}>
+            <Button variant="success" onClick={startNewLocation}>
               Добавить
             </Button>
           </Stack>
         </>
       ) : (
         <>
-          <Heading>Добавить новую локацию</Heading>
+          <Heading>Добавить локацию</Heading>
           <LocationForm onSubmit={handleSubmit} initialValues={location} />
         </>
       )}

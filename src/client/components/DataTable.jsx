@@ -6,12 +6,12 @@ const DataTable = ({ tableHeadings, rows: { idProp, data }, editFormPath }) => {
   return (
     <>
       {data && data.length ? (
-        <Table responsive bordered hover className="align-middle">
-          <thead className="table-dark">
+        <Table responsive bordered hover className="align-middle" size="sm">
+          <thead>
             <tr>
               <th></th>
               {Object.entries(tableHeadings).map(([key, text]) => (
-                <th key={key} className="align-middle text-center">
+                <th key={key} className="align-middle">
                   {text}
                 </th>
               ))}
