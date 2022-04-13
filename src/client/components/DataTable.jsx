@@ -2,14 +2,14 @@ import { Table, Button, Spinner } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const DataTable = ({ tableHeadings, rows: { idProp, data }, editFormPath }) => {
+const DataTable = ({ tableHeadings, rows: { idProp, data }, showEditBtn = true, editFormPath }) => {
   return (
     <>
       {data && data.length ? (
         <Table responsive bordered hover className="align-middle" size="sm">
           <thead>
             <tr>
-              <th></th>
+              {showEditBtn ? <th></th> : null}
               {Object.entries(tableHeadings).map(([key, text]) => (
                 <th key={key} className="align-middle">
                   {text}
@@ -20,20 +20,22 @@ const DataTable = ({ tableHeadings, rows: { idProp, data }, editFormPath }) => {
           <tbody>
             {data.map((data) => (
               <tr key={`row-${data[idProp]}`}>
-                <td>
-                  <LinkContainer
-                    to={`${editFormPath ? [editFormPath, data[idProp]].join('/') : data[idProp]}`}
-                  >
-                    <Button
-                      variant="link"
-                      size="sm"
-                      className="d-flex align-items-center px-1"
-                      title="Редактировать"
+                {showEditBtn ? (
+                  <td>
+                    <LinkContainer
+                      to={`${editFormPath ? [editFormPath, data[idProp]].join('/') : data[idProp]}`}
                     >
-                      <PencilSquare />
-                    </Button>
-                  </LinkContainer>
-                </td>
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="d-flex align-items-center px-1"
+                        title="Редактировать"
+                      >
+                        <PencilSquare />
+                      </Button>
+                    </LinkContainer>
+                  </td>
+                ) : null}
                 {Object.keys(tableHeadings).map((prop) => (
                   <td key={`${data[idProp]}-${prop}`}>{data[prop]}</td>
                 ))}

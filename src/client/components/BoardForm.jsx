@@ -128,7 +128,7 @@ const BoardForm = ({ initialValues, onSubmit, onRemove, additionalSchema }) => {
                       sm="12"
                       md="4"
                       controlId="regDateFormik"
-                      label="Дата регистрации"
+                      label="Дата постановки на учет"
                       type="date"
                       name="registrationDate"
                     />

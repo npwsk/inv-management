@@ -23,7 +23,7 @@ class BoardDataService {
     return http.delete(`/boards/${id}`);
   }
 
-  findByParams({ state, staffId, locationId, regDate }) {
+  findByParams({ state, staffId, locationId, regDateFrom, regDateTo }) {
     const params = [];
     if (state) {
       params.push(`state=${state}`);
@@ -31,15 +31,16 @@ class BoardDataService {
     if (staffId) {
       params.push(`staffId=${staffId}`);
     }
-    if (staffId) {
+    if (locationId) {
       params.push(`locationId=${locationId}`);
     }
-    if (regDate?.from) {
-      params.push(`fromRegDate=${regDate.from}`);
+    if (regDateFrom) {
+      params.push(`fromRegDate=${regDateFrom}`);
     }
-    if (regDate?.to) {
-      params.push(`toRegDate=${regDate.to}`);
+    if (regDateTo) {
+      params.push(`toRegDate=${regDateTo}`);
     }
+    console.log(`/boards?${params.join('&')}`);
 
     return http.get(`/boards?${params.join('&')}`);
   }

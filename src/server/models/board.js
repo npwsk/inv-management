@@ -87,16 +87,23 @@ Board.findById = (id, callback) => {
   );
 };
 
-Board.getAll = (conditions, callback) => {
+Board.getAll = (params, callback) => {
+  const normParams = {
+    ...params,
+    staffId: Number(params.staffId),
+    locationId: Number(params.locationId),
+  };
+  if (normParams) console.log(JSON.stringify(normParams));
+
   let queryString = `SELECT
       inventory_number AS inventoryNumber,
       manufacturer,
       model,
       diag_size AS diagSize,
-      registration_date AS registrationDate,
-      usage_start_date AS usageStartDate,
+      SUBSTRING(registration_date, 1, 10) AS registrationDate,
+      SUBSTRING(usage_start_date, 1, 10) AS usageStartDate,
       deprecation_period AS deprecationPeriod,
-      repair_start_date AS repairStartDate,
+      SUBSTRING(repair_start_date, 1, 10) AS repairStartDate,
       failure_reason AS failureReason,
       state,
       technology,
@@ -105,36 +112,36 @@ Board.getAll = (conditions, callback) => {
         ". ", sm.last_name) AS staff
       FROM InteractiveBoard AS ib`;
 
-  if (conditions.fromRegDate && !conditions.toRegDate) {
-    queryString += ' WHERE registration_date >= :fromRegDate';
-  }
-
-  if (!conditions.fromRegDate && conditions.toRegDate) {
-    queryString += ' WHERE registration_date <= :toRegDate';
-  }
-
-  if (conditions.fromRegDate && conditions.toRegDate) {
-    queryString += ' WHERE registration_date >= :fromRegDate AND registration_date <= :toRegDate';
-  }
-
-  if (conditions.state) {
-    queryString += ' WHERE state=:state';
-  }
-
-  if (conditions.staffId) {
-    queryString += ' WHERE staff_id=:staffId';
-  }
-
-  if (conditions.locationId) {
-    queryString += ' WHERE location_id=:locationId';
-  }
-
   queryString += `INNER JOIN DeviceLocation AS dl
     ON location_id = dl.id
   INNER JOIN StaffMember AS sm
-    ON staff_id = sm.id;`;
+    ON staff_id = sm.id`;
 
-  db.query(queryString, conditions, (err, res) => {
+  if (normParams.fromRegDate && !normParams.toRegDate) {
+    queryString += ' WHERE registration_date >= :fromRegDate';
+  }
+
+  if (!normParams.fromRegDate && normParams.toRegDate) {
+    queryString += ' WHERE registration_date <= :toRegDate';
+  }
+
+  if (normParams.fromRegDate && normParams.toRegDate) {
+    queryString += ' WHERE registration_date >= :fromRegDate AND registration_date <= :toRegDate';
+  }
+
+  if (normParams.state) {
+    queryString += ' WHERE state=:state';
+  }
+
+  if (normParams.staffId) {
+    queryString += ' WHERE staff_id=:staffId';
+  }
+
+  if (normParams.locationId) {
+    queryString += ' WHERE location_id=:locationId';
+  }
+
+  db.query(queryString, normParams, (err, res) => {
     if (err) {
       console.log('Error:', err);
       callback(null, err);
