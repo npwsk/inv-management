@@ -11,6 +11,8 @@ const PORT = config.port;
 
 const app = express();
 
+app.use(express.static('build'));
+
 app.use(cors());
 
 app.use(bodyParser.json());
