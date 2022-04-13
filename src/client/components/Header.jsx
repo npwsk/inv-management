@@ -35,19 +35,9 @@ const Header = () => {
                 <LinkContainer to="/about-app">
                   <NavDropdown.Item>О приложении</NavDropdown.Item>
                 </LinkContainer>
-                <LinkContainer to="/about-developer">
-                  <NavDropdown.Item>О разработчике</NavDropdown.Item>
-                </LinkContainer>
                 <LinkContainer to="/manual">
                   <NavDropdown.Item>Руководство</NavDropdown.Item>
                 </LinkContainer>
-                <NavDropdown.Item
-                  href="/main.js.LICENSE.txt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Лицензия
-                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
