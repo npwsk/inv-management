@@ -5,10 +5,10 @@ import * as yup from 'yup';
 import { Button, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import Heading from '../components/Heading';
-import BoardForm from '../components/BoardForm';
+import Heading from '../../components/Heading';
+import BoardForm from '../../components/BoardForm';
 
-import { createBoard } from '../actions/board';
+import { createBoard } from '../../actions/board';
 
 const NewBoard = () => {
   const today = new Date().toISOString().slice(0, 10);

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 
 const Header = () => {
   return (
@@ -15,18 +15,40 @@ const Header = () => {
 
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
+              <LinkContainer to="/boards">
+                <Nav.Link>Устройства</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/staff">
+                <Nav.Link>Сотрудники</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/locations">
+                <Nav.Link>Локации</Nav.Link>
+              </LinkContainer>
+
               <LinkContainer to="/reports">
-                <Nav.Link>Сформировать отчет</Nav.Link>
+                <Nav.Link>Отчеты</Nav.Link>
               </LinkContainer>
             </Nav>
 
             <Nav>
-              <LinkContainer to="/about">
-                <Nav.Link>Справка</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/manual">
-                <Nav.Link>Руководство</Nav.Link>
-              </LinkContainer>
+              <NavDropdown title="Справка" id="basic-nav-dropdown">
+                <LinkContainer to="/about-app">
+                  <NavDropdown.Item>О приложении</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/about-developer">
+                  <NavDropdown.Item>О разработчике</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/manual">
+                  <NavDropdown.Item>Руководство</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item
+                  href="/main.js.LICENSE.txt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Лицензия
+                </NavDropdown.Item>
+              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
         </Container>

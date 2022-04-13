@@ -4,17 +4,13 @@ import { useDispatch } from 'react-redux';
 
 import { Spinner } from 'react-bootstrap';
 
-import BoardDataService from '../services/board';
-import { updateBoard, deleteBoard } from '../actions/board';
+import BoardDataService from '../../services/board';
+import { updateBoard, deleteBoard } from '../../actions/board';
 
-import Heading from '../components/Heading';
-import BoardForm from '../components/BoardForm';
+import Heading from '../../components/Heading';
+import BoardForm from '../../components/BoardForm';
 
 const Board = () => {
-  // const today = new Date().toISOString().slice(0, 10);
-
-  // const initialBoard = ;
-
   const { boardId } = useParams();
 
   const [currentValues, setCurrentValues] = useState(null);

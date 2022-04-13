@@ -1,6 +1,6 @@
 import Heading from '../components/Heading';
 
-const About = () => {
+const AboutApp = () => {
   return (
     <>
       <Heading>О приложении</Heading>
@@ -10,4 +10,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutApp;
