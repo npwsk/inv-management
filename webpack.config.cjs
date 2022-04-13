@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const dotenv = require('dotenv');
 
@@ -17,6 +18,12 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/static/index.html',
+      favicon: 'src/static/favicon.svg',
+      filename: 'index.html',
+    }),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve(__dirname, 'src/static/favicon.svg'),
+      inject: (htmlPlugin) => path.basename(htmlPlugin.options.filename) === 'index.html',
     }),
     new MiniCssExtractPlugin(),
     new webpack.DefinePlugin({
