@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { PlusLg } from 'react-bootstrap-icons';
 
@@ -43,6 +43,7 @@ const Boards = () => {
   return (
     <>
       <Heading>Интерактивные доски</Heading>
+
       <LinkContainer to="/boards/new" className="mb-3 lh-1" title="Добавить устройство">
         <Button variant="outline-primary">
           <PlusLg className="me-1" />

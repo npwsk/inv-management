@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Alert } from 'react-bootstrap';
 
 import BoardDataService from '../../services/board';
 import { updateBoard, deleteBoard } from '../../actions/board';
@@ -14,6 +14,7 @@ const Board = () => {
   const { boardId } = useParams();
 
   const [currentValues, setCurrentValues] = useState(null);
+  const [alert, setAlert] = useState({ shown: false, message: '' });
 
   const dispatch = useDispatch();
 
@@ -38,6 +39,7 @@ const Board = () => {
     dispatch(updateBoard(boardId, values))
       .then((response) => {
         console.log(response);
+        setAlert({ shown: true, message: 'Изменения сохранены' });
       })
       .catch(console.log);
   };
@@ -47,7 +49,7 @@ const Board = () => {
   const removeBoard = () => {
     dispatch(deleteBoard(boardId))
       .then(() => {
-        navigate('/boards');
+        setAlert({ shown: true, message: 'Устройство удалено' });
       })
       .catch(console.log);
   };
@@ -55,7 +57,11 @@ const Board = () => {
   return (
     <>
       <Heading>{`Устройство #${boardId}`}</Heading>
-      {currentValues ? (
+      {alert.shown ? (
+        <Alert variant="success" onClose={() => navigate('/boards')} dismissible>
+          <Alert.Heading>{alert.message}</Alert.Heading>
+        </Alert>
+      ) : currentValues ? (
         <BoardForm onSubmit={saveBoard} onRemove={removeBoard} initialValues={currentValues} />
       ) : (
         <div className="d-flex justify-content-center">

@@ -66,7 +66,6 @@ const BoardForm = ({ initialValues, onSubmit, onRemove, additionalSchema }) => {
             >
               {({ handleSubmit, handleChange, values, errors, isValid, isSubmitting }) => (
                 <Form noValidate onSubmit={handleSubmit}>
-                  {console.log(values)}
                   <Row>
                     <FormInput
                       as={Col}
