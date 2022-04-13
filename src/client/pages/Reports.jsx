@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { utils, write, writeFile } from 'xlsx';
 
 import { Button } from 'react-bootstrap';
 
@@ -30,6 +31,14 @@ const Reports = () => {
       .catch(console.log);
   };
 
+  const exportReport = (type) => {
+    const sheet = utils.json_to_sheet(report);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, sheet, 'Sheet1');
+    write(workbook, { bookType: type, bookSST: true, type: 'base64' });
+    writeFile(workbook, `Отчет-${new Date().toISOString().slice(0, 16)}.${type}`);
+  };
+
   const tableHeadings = {
     inventoryNumber: 'Инвентарный номер',
     manufacturer: 'Производитель',
@@ -58,7 +67,9 @@ const Reports = () => {
             <Button variant="outline-success" onClick={() => startReport()}>
               Новый отчет
             </Button>
-            <Button variant="success">Экспорт в .xls</Button>
+            <Button variant="success" onClick={() => exportReport('xls')}>
+              Экспорт в .xls
+            </Button>
           </div>
           <DataTable
             rows={{ data: report, idProp: 'inventoryNumber' }}
