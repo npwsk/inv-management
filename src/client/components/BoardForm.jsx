@@ -35,29 +35,28 @@ const initialSchema = {
   locationId: yup.number().required('Это обязательное поле'),
 };
 
-const BoardForm = ({ initialValues, onSubmit }) => {
+const BoardForm = ({ initialValues, onSubmit, onRemove, additionalSchema }) => {
   const locations = useSelector((state) => state.locations);
   const staffMembers = useSelector((state) => state.staff);
-  const boardsNums = useSelector((state) => state.boards).map((board) => board.inventoryNumber);
 
   const schema = yup.object({
     ...initialSchema,
-    inventoryNumber: yup
-      .string()
-      .required('Это обязательное поле')
-      .notOneOf(boardsNums, 'Этот номер уже используется'),
+    ...additionalSchema,
   });
 
   return (
     <Container>
       <Row>
         <Col>
-          {locations && locations.length && staffMembers && staffMembers.length ? (
+          {locations && locations.length && staffMembers && staffMembers.length && initialValues ? (
             <Formik
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
                 onSubmit({
                   ...values,
+                  repairStartDate:
+                    values.state === states.IN_REPAIR ? values.repairStartDate : null,
+                  failureReason: values.state === states.IN_REPAIR ? values.failureReason : null,
                   staffId: Number(values.staffId),
                   locationId: Number(values.locationId),
                 });
@@ -67,6 +66,7 @@ const BoardForm = ({ initialValues, onSubmit }) => {
             >
               {({ handleSubmit, handleChange, values, errors, isValid, isSubmitting }) => (
                 <Form noValidate onSubmit={handleSubmit}>
+                  {console.log(values)}
                   <Row>
                     <FormInput
                       as={Col}
@@ -225,10 +225,15 @@ const BoardForm = ({ initialValues, onSubmit }) => {
                     </FormSelect>
                   </Row>
                   <Row>
-                    <div>
+                    <div className="d-flex gap-4">
                       <Button variant="success" size="lg" type="submit">
                         Сохранить
                       </Button>
+                      {onRemove ? (
+                        <Button variant="danger" size="lg" onClick={onRemove}>
+                          Удалить
+                        </Button>
+                      ) : null}
                     </div>
                   </Row>
                 </Form>

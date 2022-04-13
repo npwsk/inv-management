@@ -1,4 +1,4 @@
-import { CREATE_BOARD, GET_BOARDS, GET_BOARD, UPDATE_BOARD, DELETE_BOARD } from './types.js';
+import { CREATE_BOARD, GET_BOARDS, UPDATE_BOARD, DELETE_BOARD } from './types.js';
 import BoardDataService from '../services/board.js';
 
 export const createBoard = (props) => async (dispatch) => {
@@ -22,19 +22,6 @@ export const getBoards = () => async (dispatch) => {
 
     dispatch({
       type: GET_BOARDS,
-      payload: res.data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getBoard = (id) => async (dispatch) => {
-  try {
-    const res = await BoardDataService.get(id);
-
-    dispatch({
-      type: GET_BOARD,
       payload: res.data,
     });
   } catch (err) {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
 
 import { Button, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -47,6 +48,18 @@ const NewBoard = () => {
       .catch(console.log);
   };
 
+  const boardsNums = useSelector((state) => {
+    const { boards } = state;
+    return boards ? boards.map((board) => board.inventoryNumber) : [];
+  });
+
+  const schema = {
+    inventoryNumber: yup
+      .string()
+      .required('Это обязательное поле')
+      .notOneOf(boardsNums, 'Этот номер уже используется'),
+  };
+
   return (
     <>
       {sumbitted ? (
@@ -66,7 +79,7 @@ const NewBoard = () => {
       ) : (
         <>
           <Heading>Добавить новое устройство</Heading>
-          <BoardForm onSubmit={handleSubmit} initialValues={initialValues} />
+          <BoardForm onSubmit={handleSubmit} initialValues={board} additionalSchema={schema} />
         </>
       )}
     </>

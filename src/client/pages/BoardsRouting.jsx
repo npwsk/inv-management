@@ -9,7 +9,7 @@ const BoardsRouting = () => {
     <>
       <Routes>
         <Route path="/" element={<Boards />} />
-        <Route path=":id" element={<Board />} />
+        <Route path=":boardId" element={<Board />} />
         <Route path="new" element={<NewBoard />} />
       </Routes>
     </>

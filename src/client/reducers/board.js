@@ -1,10 +1,4 @@
-import {
-  CREATE_BOARD,
-  GET_BOARDS,
-  GET_BOARD,
-  UPDATE_BOARD,
-  DELETE_BOARD,
-} from '../actions/types.js';
+import { CREATE_BOARD, GET_BOARDS, UPDATE_BOARD, DELETE_BOARD } from '../actions/types.js';
 
 const initialState = [];
 
@@ -16,9 +10,6 @@ const boardReducer = (boards = initialState, action) => {
       return [...boards, payload];
 
     case GET_BOARDS:
-      return payload;
-
-    case GET_BOARD:
       return payload;
 
     case UPDATE_BOARD:

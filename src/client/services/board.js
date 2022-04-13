@@ -6,6 +6,7 @@ class BoardDataService {
   }
 
   get(id) {
+    console.log(id);
     return http.get(`/boards/${id}`);
   }
 
