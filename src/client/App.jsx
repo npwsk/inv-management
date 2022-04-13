@@ -23,12 +23,12 @@ const App = () => {
             <Route index element={<BoardsRouting />} />
             <Route path="boards/*" element={<BoardsRouting />} />
             <Route path="locations">
-              <Route path=":id" element={<Location />} />
+              <Route path=":locationId" element={<Location />} />
               <Route path="new" element={<NewLocation />} />
               <Route index element={<Locations />} />
             </Route>
             <Route path="staff">
-              <Route path=":id" element={<StaffMember />} />
+              <Route path=":staffId" element={<StaffMember />} />
               <Route path="new" element={<NewStaff />} />
               <Route index element={<StaffList />} />
             </Route>
