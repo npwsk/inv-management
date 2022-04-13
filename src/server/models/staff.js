@@ -44,21 +44,30 @@ StaffMember.getAll = (callback) => {
 };
 
 StaffMember.findById = (id, callback) => {
-  db.query('SELECT * FROM StaffMember WHERE id = :id;', { id }, (err, res) => {
-    if (err) {
-      console.log('Error:', err);
-      callback(err, null);
-      return;
-    }
+  db.query(
+    `SELECT
+    first_name AS firstName,
+    last_name AS lastName,
+    middle_name AS middleName
+  FROM StaffMember
+  WHERE id = :id;`,
+    { id },
+    (err, res) => {
+      if (err) {
+        console.log('Error:', err);
+        callback(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log('Found staff: ', res[0]);
-      callback(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log('Found staff: ', res[0]);
+        callback(null, res[0]);
+        return;
+      }
 
-    result({ kind: 'not_found' }, null);
-  });
+      result({ kind: 'not_found' }, null);
+    }
+  );
 };
 
 StaffMember.updateById = (id, staff, callback) => {
