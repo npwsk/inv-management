@@ -1,4 +1,4 @@
-import { CREATE_LOCATION, GET_LOCATIONS, GET_LOCATION, UPDATE_LOCATION } from './types.js';
+import { CREATE_LOCATION, GET_LOCATIONS, UPDATE_LOCATION } from './types.js';
 import LocationDataService from '../services/location.js';
 
 export const createLocation = (data) => async (dispatch) => {
@@ -22,19 +22,6 @@ export const getLocations = () => async (dispatch) => {
 
     dispatch({
       type: GET_LOCATIONS,
-      payload: res.data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getLocation = (id) => async (dispatch) => {
-  try {
-    const res = await LocationDataService.get(id);
-
-    dispatch({
-      type: GET_LOCATION,
       payload: res.data,
     });
   } catch (err) {

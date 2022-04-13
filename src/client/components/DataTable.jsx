@@ -2,26 +2,10 @@ import { Table, Button, Spinner } from 'react-bootstrap';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const tableHeadings = {
-  inventoryNumber: 'Инвентарный номер',
-  manufacturer: 'Производитель',
-  model: 'Модель',
-  diagSize: 'Диагональ (дюймы)',
-  registrationDate: 'Дата регистрации',
-  usageStartDate: 'Дата начала эксплуатации',
-  deprecationPeriod: 'Период амортизации (месяцев)',
-  repairStartDate: 'Дата начала ремонта',
-  failureReason: 'Причина поломки',
-  state: 'Состояние',
-  technology: 'Технология',
-  location: 'Место нахождения',
-  staff: 'Ответственный сотрудник',
-};
-
-const BoardsList = ({ boards, ...props }) => {
+const DataTable = ({ tableHeadings, rows: { idProp, data }, editFormPath }) => {
   return (
     <>
-      {boards && boards.length ? (
+      {data && data.length ? (
         <Table responsive bordered hover className="align-middle">
           <thead className="table-dark">
             <tr>
@@ -34,10 +18,12 @@ const BoardsList = ({ boards, ...props }) => {
             </tr>
           </thead>
           <tbody>
-            {boards.map((board) => (
-              <tr key={`row-${board.inventoryNumber}`}>
+            {data.map((data) => (
+              <tr key={`row-${data[idProp]}`}>
                 <td>
-                  <LinkContainer to={`/boards/${board.inventoryNumber}`}>
+                  <LinkContainer
+                    to={`${editFormPath ? [editFormPath, data[idProp]].join('/') : data[idProp]}`}
+                  >
                     <Button
                       variant="link"
                       size="sm"
@@ -49,7 +35,7 @@ const BoardsList = ({ boards, ...props }) => {
                   </LinkContainer>
                 </td>
                 {Object.keys(tableHeadings).map((prop) => (
-                  <td key={`${board.inventoryNumber}-${prop}`}>{board[prop]}</td>
+                  <td key={`${data[idProp]}-${prop}`}>{data[prop]}</td>
                 ))}
               </tr>
             ))}
@@ -66,4 +52,4 @@ const BoardsList = ({ boards, ...props }) => {
   );
 };
 
-export default BoardsList;
+export default DataTable;

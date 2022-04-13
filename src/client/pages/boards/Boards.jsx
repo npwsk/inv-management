@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { PlusLg } from 'react-bootstrap-icons';
 
 import Heading from '../../components/Heading';
-import BoardsList from '../../components/BoardsList';
+import DataTable from '../../components/DataTable';
 
 import { getBoards } from '../../actions/board.js';
 import { getLocations } from '../../actions/location.js';
@@ -24,6 +24,22 @@ const Boards = () => {
 
   const boards = useBoards();
 
+  const tableHeadings = {
+    inventoryNumber: 'Инвентарный номер',
+    manufacturer: 'Производитель',
+    model: 'Модель',
+    diagSize: 'Диагональ (дюймы)',
+    registrationDate: 'Дата регистрации',
+    usageStartDate: 'Дата начала эксплуатации',
+    deprecationPeriod: 'Период амортизации (месяцев)',
+    repairStartDate: 'Дата начала ремонта',
+    failureReason: 'Причина поломки',
+    state: 'Состояние',
+    technology: 'Технология',
+    location: 'Место нахождения',
+    staff: 'Ответственный сотрудник',
+  };
+
   return (
     <>
       <Heading>Интерактивные доски</Heading>
@@ -33,7 +49,11 @@ const Boards = () => {
           Добавить
         </Button>
       </LinkContainer>
-      <BoardsList boards={boards} />
+      <DataTable
+        rows={{ data: boards, idProp: 'inventoryNumber' }}
+        tableHeadings={tableHeadings}
+        editFormPath="/boards"
+      />
     </>
   );
 };
