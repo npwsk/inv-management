@@ -29,7 +29,7 @@ const Boards = () => {
     manufacturer: 'Производитель',
     model: 'Модель',
     diagSize: 'Диагональ (дюймы)',
-    registrationDate: 'Дата регистрации',
+    registrationDate: 'Дата принятия к учету',
     usageStartDate: 'Дата начала эксплуатации',
     deprecationPeriod: 'Период амортизации (месяцев)',
     repairStartDate: 'Дата начала ремонта',

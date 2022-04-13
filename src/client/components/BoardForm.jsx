@@ -128,7 +128,7 @@ const BoardForm = ({ initialValues, onSubmit, onRemove, additionalSchema }) => {
                       sm="12"
                       md="4"
                       controlId="regDateFormik"
-                      label="Дата постановки на учет"
+                      label="Дата принятия к учету"
                       type="date"
                       name="registrationDate"
                     />
@@ -146,7 +146,7 @@ const BoardForm = ({ initialValues, onSubmit, onRemove, additionalSchema }) => {
                       sm="12"
                       md="4"
                       controlId="deprPeriodFormik"
-                      label="Срок амортизации"
+                      label="Срок амортизации (месяцев)"
                       type="number"
                       name="deprecationPeriod"
                     />

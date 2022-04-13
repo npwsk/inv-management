@@ -65,8 +65,8 @@ const NewBoard = () => {
       {sumbitted ? (
         <>
           <Heading className="text-center mb-2">Устройство добавлено!</Heading>
-          <Stack gap={2} className="col-md-5 mx-auto">
-            <LinkContainer to="/boards/" title="Добавить устройство">
+          <Stack gap={2} className="col-md-5 mx-auto mt-3">
+            <LinkContainer to="/boards/">
               <Button variant="outline-primary" size="lg">
                 К списку устройств
               </Button>

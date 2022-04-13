@@ -20,9 +20,9 @@ const StaffList = () => {
 
   const tableHeadings = {
     id: 'Код',
-    last_name: 'Корпус',
-    first_name: 'Аудитория',
-    middle_name: 'Аудитория',
+    last_name: 'Фамилия',
+    first_name: 'Имя',
+    middle_name: 'Отчество',
   };
 
   return (

@@ -58,7 +58,7 @@ const ReportForm = ({ initialValues, onSubmit }) => {
                       sm="12"
                       md="4"
                       controlId="regDateFromFormik"
-                      label="По дате постановки на учет:"
+                      label="По дате принятия к учету:"
                       type="date"
                       name="regDateFrom"
                       inputGroupPrepend={<InputGroup.Text>с</InputGroup.Text>}
